@@ -7,7 +7,7 @@ import {
   KEYBOARD_KEY,
   MAX_INPUT_LENGTH,
 } from "../lib/constants";
-import { isNumberValid, logKeyCombination } from "../lib/utils";
+import { isNumberValid } from "../lib/utils";
 
 type DisplayProps = {
   value: string;
@@ -45,8 +45,8 @@ const CalculatorInput = ({
   // -------------------------------------------------------------------------------------------------
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    console.log(`%conKeyDown:`, "background: #ddd;");
-    logKeyCombination(e);
+    // console.log(`%conKeyDown:`, "background: #ddd;");
+    // logKeyCombination(e);
 
     // Permit normal function/control/cursor key processing
     if (

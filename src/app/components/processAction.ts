@@ -54,8 +54,16 @@ export const processAction = ({
     }
 
     case ACTION.Equals: {
+      debugger;
       let result = parseFloat(display);
-      if (register !== null) {
+      const operationInProgress =
+        previousKeyPressed === ACTION.Plus ||
+        previousKeyPressed === ACTION.Minus ||
+        previousKeyPressed === ACTION.Times ||
+        previousKeyPressed === ACTION.Divide;
+
+      // No calculation necessary if second operand not entered
+      if (register !== null && !operationInProgress) {
         result = performCalculation({
           display,
           register: register,
@@ -70,9 +78,15 @@ export const processAction = ({
       break;
     }
 
-    case ACTION.Delete: {
-      let newValue = display.slice(0, -1);
-      if (previousKeyPressed === "Equals") newValue = "0";
+    case ACTION.Backspace: {
+      const newValue = display.slice(0, -1);
+
+      // After Equals, deleting a number starts a new calculation
+      if (previousKeyPressed === "Equals") setRegister(null);
+
+      // Enforce state to be entering a number
+      setPreviousKeyPressed("Number");
+
       setDisplay(formatDisplay(newValue));
       break;
     }

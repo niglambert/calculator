@@ -3,7 +3,7 @@ export const MAX_INPUT_LENGTH = 8;
 export const MAX_DECIMAL_PLACES = MAX_INPUT_LENGTH - 2;
 
 export const ACTION = {
-  Delete: "Delete",
+  Backspace: "Backspace",
   ClearEntry: "ClearEntry",
   ClearAll: "ClearAll",
   Divide: "Divide",

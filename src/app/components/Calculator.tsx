@@ -4,6 +4,7 @@ import CKey from "./CalculatorKey";
 import { ACTION, MAX_INPUT_LENGTH } from "../lib/constants";
 import { processAction } from "./processAction";
 import { processNumber } from "./processNumber";
+import { formatDisplay, isNumberValid } from "../lib/utils";
 
 // -------------------------------------------------------------------------------------------------
 
@@ -18,7 +19,7 @@ const Calculator = () => {
 
   const handleInputNumber = (combinedNumber: string) => {
     console.log(
-      `%chandleInputNumber Display[${display}] CombinedNumber[${combinedNumber}] Operation[${operation}] register[${register}] previousKeyPressed[${previousKeyPressed}] `,
+      `%cCALCULATOR handleInputNumber Display[${display}] CombinedNumber[${combinedNumber}] Operation[${operation}] register[${register}] previousKeyPressed[${previousKeyPressed}] `,
       "color:blue;font-weight:700;"
     );
 
@@ -49,7 +50,7 @@ const Calculator = () => {
 
   const handleInputAction = (action: string) => {
     console.log(
-      `%chandleInputAction Action[${action}]`,
+      `%cCALCULATOR handleInputAction Action[${action}]`,
       "color:blue;font-weight:700;"
     );
     processAction({
@@ -68,7 +69,10 @@ const Calculator = () => {
   // -------------------------------------------------------------------------------------------------
 
   const handleKeyClick = (key: string) => {
-    console.log(`%chandleKeyClick Key[${key}]`, "color:blue;font-weight:700;");
+    console.log(
+      `%cCALCULATOR handleKeyClick Key[${key}]`,
+      "color:blue;font-weight:700;"
+    );
 
     const isAction = Object.keys(ACTION).includes(key);
     if (isAction) {
@@ -84,15 +88,29 @@ const Calculator = () => {
         setPreviousKeyPressed,
       });
     } else {
-      const combinedNumber: string | null = display + key;
-      processNumber({
-        numberEntered: key,
-        combinedNumber,
-        previousKeyPressed,
-        setDisplay,
-        setRegister: setRegister,
-        setPreviousKeyPressed,
-      });
+      //const combinedNumber = display + key;
+
+      // After Equals clear register for a new calculation
+      if (previousKeyPressed === ACTION.Equals) {
+        setRegister(null);
+      }
+
+      let newValue = display + key;
+      if (
+        previousKeyPressed === ACTION.Plus ||
+        previousKeyPressed === ACTION.Minus ||
+        previousKeyPressed === ACTION.Times ||
+        previousKeyPressed === ACTION.Divide ||
+        previousKeyPressed === ACTION.Equals
+      ) {
+        newValue = key;
+      }
+
+      if (!isNumberValid(newValue, MAX_INPUT_LENGTH)) return;
+
+      setPreviousKeyPressed("Number");
+      setDisplay(formatDisplay(newValue));
+
       if (inputRef.current) inputRef.current.focus();
     }
   };
@@ -100,7 +118,7 @@ const Calculator = () => {
   // -------------------------------------------------------------------------------------------------
 
   return (
-    <div className="bg-gray-400 p-4 pt-6 rounded-xl shadow shadow-gray-500">
+    <div className="bg-gray-400 p-4 pt-6 rounded-xl shadow shadow-gray-500 select-none">
       <div className="text-md mb-4 text-right">Display [{display}]</div>
       <div className="text-md mb-4 text-right">Register [{register}]</div>
       <div className="text-md mb-4 text-right">Operation [{operation}]</div>
@@ -115,8 +133,11 @@ const Calculator = () => {
         inputRef={inputRef}
       />
 
-      <div className="grid grid-cols-4 gap-3 mb-2">
-        <CKey onKeyClick={() => handleKeyClick("Delete")} className="text-3xl">
+      <div className="grid grid-cols-4 gap-3 mb-2 ">
+        <CKey
+          onKeyClick={() => handleKeyClick("Backspace")}
+          className="text-3xl"
+        >
           Del
         </CKey>
         <CKey
