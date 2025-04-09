@@ -4,7 +4,7 @@ import CKey from "./CalculatorKey";
 import { processAction } from "./processAction";
 import { processNumber } from "./processNumber";
 import { ACTION } from "../lib/constants";
-
+import { log } from "../lib/utils";
 // -------------------------------------------------------------------------------------------------
 
 const Calculator = () => {
@@ -17,10 +17,7 @@ const Calculator = () => {
   // -------------------------------------------------------------------------------------------------
 
   const handleInputNumber = (value: string) => {
-    console.log(
-      `%cCALCULATOR handleInputNumber Display[${display}] Operation[${operation}] register[${register}] previousKeyPressed[${previousKeyPressed}] `,
-      "color:blue;font-weight:700;"
-    );
+    log(`%cCALCULATOR handleKeyAction Key[${value}]`);
 
     // NEW OPERAND where previousKeyPressed was not a number
     let newValue = value;
@@ -35,10 +32,10 @@ const Calculator = () => {
     }
 
     processNumber({
-      newValue: newValue,
+      newValue,
       previousKeyPressed,
       setDisplay,
-      setRegister: setRegister,
+      setRegister,
       setPreviousKeyPressed,
     });
 
@@ -48,18 +45,15 @@ const Calculator = () => {
   // -------------------------------------------------------------------------------------------------
 
   const handleInputAction = (action: string) => {
-    console.log(
-      `%cCALCULATOR handleInputAction Action[${action}]`,
-      "color:blue;font-weight:700;"
-    );
+    log(`%cCALCULATOR handleKeyAction Key[${action}]`);
     processAction({
       action,
       display,
       operation,
-      register: register,
+      register,
       previousKeyPressed,
       setDisplay,
-      setRegister: setRegister,
+      setRegister,
       setOperation,
       setPreviousKeyPressed,
     });
@@ -67,52 +61,55 @@ const Calculator = () => {
 
   // -------------------------------------------------------------------------------------------------
 
-  const handleKeyClick = (key: string) => {
-    console.log(
-      `%cCALCULATOR handleKeyClick Key[${key}]`,
-      "color:blue;font-weight:700;"
-    );
+  const handleKeyNumber = (value: string) => {
+    log(`%cCALCULATOR handleKeyAction Key[${value}]`);
 
-    const isAction = Object.keys(ACTION).includes(key);
-    if (isAction) {
-      processAction({
-        action: key,
-        display,
-        operation,
-        register: register,
-        previousKeyPressed,
-        setDisplay,
-        setRegister: setRegister,
-        setOperation,
-        setPreviousKeyPressed,
-      });
-    } else {
-      let newValue = display + key;
-      if (
-        previousKeyPressed === ACTION.Plus ||
-        previousKeyPressed === ACTION.Minus ||
-        previousKeyPressed === ACTION.Times ||
-        previousKeyPressed === ACTION.Divide ||
-        previousKeyPressed === ACTION.Equals
-      ) {
-        newValue = key;
-      }
-
-      processNumber({
-        newValue: newValue,
-        previousKeyPressed,
-        setDisplay,
-        setRegister: setRegister,
-        setPreviousKeyPressed,
-      });
+    let newValue = display + value;
+    if (
+      previousKeyPressed === ACTION.Plus ||
+      previousKeyPressed === ACTION.Minus ||
+      previousKeyPressed === ACTION.Times ||
+      previousKeyPressed === ACTION.Divide ||
+      previousKeyPressed === ACTION.Equals
+    ) {
+      newValue = value;
     }
+
+    processNumber({
+      newValue,
+      previousKeyPressed,
+      setDisplay,
+      setRegister,
+      setPreviousKeyPressed,
+    });
+
+    if (inputRef.current) inputRef.current.focus();
+  };
+
+  // -------------------------------------------------------------------------------------------------
+
+  const handleKeyAction = (action: string) => {
+    log(`%cCALCULATOR handleKeyAction Key[${action}]`);
+
+    processAction({
+      action,
+      display,
+      operation,
+      register,
+      previousKeyPressed,
+      setDisplay,
+      setRegister,
+      setOperation,
+      setPreviousKeyPressed,
+    });
+
     if (inputRef.current) inputRef.current.focus();
   };
 
   // -------------------------------------------------------------------------------------------------
 
   return (
-    <div className="bg-gray-400 p-4 pt-6 rounded-xl shadow shadow-gray-500 select-none">
+    <div className="bg-[#3b4b64] p-4 pt-6 rounded-xl shadow shadow-gray-500 select-none">
       <CalculatorInput
         value={display}
         onNumberChange={handleInputNumber}
@@ -122,67 +119,67 @@ const Calculator = () => {
 
       <div className="grid grid-cols-4 gap-3 mb-2 ">
         <CKey
-          onKeyClick={() => handleKeyClick("Backspace")}
+          onKeyClick={() => handleKeyAction("Backspace")}
           className="text-3xl"
         >
           Del
         </CKey>
         <CKey
-          onKeyClick={() => handleKeyClick("ClearAll")}
+          onKeyClick={() => handleKeyAction("ClearAll")}
           className="text-3xl"
         >
           C
         </CKey>
         <CKey
-          onKeyClick={() => handleKeyClick("ClearEntry")}
+          onKeyClick={() => handleKeyAction("ClearEntry")}
           className="text-3xl"
         >
           CE
         </CKey>
         <CKey
-          onKeyClick={() => handleKeyClick("Divide")}
-          className={operation === "Divide" ? "bg-amber-500" : "bg-amber-400"}
+          onKeyClick={() => handleKeyAction("Divide")}
+          className={operation === "Divide" ? "bg-amber-400" : "bg-amber-300"}
         >
           /
         </CKey>
 
-        <CKey onKeyClick={() => handleKeyClick("7")}>7</CKey>
-        <CKey onKeyClick={() => handleKeyClick("8")}>8</CKey>
-        <CKey onKeyClick={() => handleKeyClick("9")}>9</CKey>
+        <CKey onKeyClick={() => handleKeyNumber("7")}>7</CKey>
+        <CKey onKeyClick={() => handleKeyNumber("8")}>8</CKey>
+        <CKey onKeyClick={() => handleKeyNumber("9")}>9</CKey>
         <CKey
-          onKeyClick={() => handleKeyClick("Times")}
-          className={operation === "Times" ? "bg-amber-500" : "bg-amber-400"}
+          onKeyClick={() => handleKeyAction("Times")}
+          className={operation === "Times" ? "bg-amber-400" : "bg-amber-300"}
         >
           x
         </CKey>
 
-        <CKey onKeyClick={() => handleKeyClick("4")}>4</CKey>
-        <CKey onKeyClick={() => handleKeyClick("5")}>5</CKey>
-        <CKey onKeyClick={() => handleKeyClick("6")}>6</CKey>
+        <CKey onKeyClick={() => handleKeyNumber("4")}>4</CKey>
+        <CKey onKeyClick={() => handleKeyNumber("5")}>5</CKey>
+        <CKey onKeyClick={() => handleKeyNumber("6")}>6</CKey>
         <CKey
-          onKeyClick={() => handleKeyClick("Minus")}
-          className={operation === "Minus" ? "bg-amber-500" : "bg-amber-400"}
+          onKeyClick={() => handleKeyAction("Minus")}
+          className={operation === "Minus" ? "bg-amber-400" : "bg-amber-300"}
         >
           -
         </CKey>
 
-        <CKey onKeyClick={() => handleKeyClick("1")}>1</CKey>
-        <CKey onKeyClick={() => handleKeyClick("2")}>2</CKey>
-        <CKey onKeyClick={() => handleKeyClick("3")}>3</CKey>
+        <CKey onKeyClick={() => handleKeyNumber("1")}>1</CKey>
+        <CKey onKeyClick={() => handleKeyNumber("2")}>2</CKey>
+        <CKey onKeyClick={() => handleKeyNumber("3")}>3</CKey>
         <CKey
-          onKeyClick={() => handleKeyClick("Plus")}
-          className={operation === "Plus" ? "bg-amber-500" : "bg-amber-400"}
+          onKeyClick={() => handleKeyAction("Plus")}
+          className={operation === "Plus" ? "bg-amber-400" : "bg-amber-300"}
         >
           +
         </CKey>
 
-        <CKey onKeyClick={() => handleKeyClick("0")} className="col-span-2">
+        <CKey onKeyClick={() => handleKeyNumber("0")} className="col-span-2">
           0
         </CKey>
-        <CKey onKeyClick={() => handleKeyClick(".")}>.</CKey>
+        <CKey onKeyClick={() => handleKeyNumber(".")}>.</CKey>
         <CKey
-          onKeyClick={() => handleKeyClick("Equals")}
-          className={operation === "Equals" ? "bg-amber-500" : "bg-amber-400"}
+          onKeyClick={() => handleKeyAction("Equals")}
+          className={operation === "Equals" ? "bg-amber-400" : "bg-amber-300"}
         >
           =
         </CKey>

@@ -142,6 +142,7 @@ export const formatDisplay = (value: number | string): string => {
 // -------------------------------------------------------------------------------------------------
 
 /**
+ * Console log KeyDown key combination
  *
  * @param e
  */
@@ -158,4 +159,15 @@ export const logKeyCombination = (e: KeyboardEvent<HTMLInputElement>) => {
           `,
     "color:green;font-weight:700;"
   );
+};
+
+// -------------------------------------------------------------------------------------------------
+
+/**
+ * Console log in blue
+ *
+ * @param value
+ */
+export const log = (value: string) => {
+  console.log(`%c${value}`, "color:blue;font-weight:700;");
 };

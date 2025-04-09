@@ -14,7 +14,7 @@ const CalculatorKey = ({
   return (
     <div
       className={cn(
-        "w-full h-16 flex justify-center items-center rounded-md text-5xl font-bold bg-gray-200 shadow shadow-gray-500 hover:cursor-pointer hover:opacity-90 active:opacity-95 ",
+        "w-full h-16 flex justify-center items-center rounded-md text-5xl font-bold bg-[#7895A8] shadow shadow-gray-500 hover:cursor-pointer hover:opacity-90 active:opacity-95 text-amber-50",
         className
       )}
       onClick={onKeyClick}
