@@ -2,32 +2,16 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+### Packages
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Removes conflicting class names
+npm install tailwind-merge
+
+# Conditionally add classes
+npm install clsx
+
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
 ## Deploy on Vercel
 
@@ -35,24 +19,29 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-# Vitest
+## Vitest
 
-## Tests
+Refer to: [Setting up Vitest with Next.js](https://nextjs.org/docs/app/building-your-application/testing/vitest)
 
-npm install tailwind-merge
+### Packages
 
-npm install clsx
-
-https://nextjs.org/docs/app/building-your-application/testing/vitest
-
+```bash
+# Vite packages with typescript
 npm install -D vitest @vitejs/plugin-react jsdom @testing-library/react @testing-library/dom vite-tsconfig-paths
+
+# Vite UI package
 npm i -D @vitest/ui
 
+# Run tests
 npx vitest run
 
-###vitest.config.ts
-
+# Launch testing UI
+npm run test:ui
 ```
+
+### vitest.config.ts
+
+```bash
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -71,16 +60,20 @@ export default defineConfig({
 });
 ```
 
-###vitest.setup.ts
+### vitest.setup.ts
 
-```
-// Leave empty
+Create this file but leave empty
+
+```bash
+// Leave this file empty
 // import '@testing-library/jest-dom'
 ```
 
-###tsconfig.json
+### tsconfig.json
 
-```
+Add the following
+
+```bash
 {
   ...
   "compilerOptions": {
@@ -89,9 +82,11 @@ export default defineConfig({
     ...
 ```
 
-###package.json
+### package.json
 
-```
+Update scripts
+
+```bash
 {
   ...
   "scripts": {
@@ -101,15 +96,10 @@ export default defineConfig({
     ...
 ```
 
-## Run Vitest UI
+# End-to-End Tests
 
-npm run test:ui
+## Button Tests
 
-http://localhost:9527/**vitest**/#/?file=472998075
-
-## End-to-End Button Tests
-
-Rules
 If the first operand is an operator, default the first operand to 0
 Tests: -2=[-2], /9=[0]
 
@@ -143,7 +133,7 @@ Tests: 123456789[12345678]
 Exponent used if result too large
 Tests: 99999999x10[1.00e+9]
 
-## End-to-End Input Field Tests
+## Input Field Tests
 
 Empty field displays 0
 Tests: 0Backspace[0]
@@ -161,31 +151,3 @@ Tests: 0.01<<Del[1]
 
 Copy & Paste number
 Tests: 1.32 CTRLA CTRLC CTRLX CTRLV[1.32]
-
-Key actions:
-|---------------|-------------------|
-|<- | Cursor left |
-|-> | Cursor right |
-|Home | Cursor to start |
-|End | Cursor to end |
-|SHIFT -> | Select to right |
-|SHIFT <- | Select to left |
-|CTRL SHIFT -> | Select word right |
-|CTRL SHIFT <- | Select word left |
-|Backspace | Delete left |
-|Del | Delete right |
-|Escape | Clear All |
-|Enter | Equals |
-
-Replace selected
-
-3+= 6
-3+== 9
-
-3+-4= -1
-
-3+4D5= 8
-
-3+4+ 7
-
--2+3

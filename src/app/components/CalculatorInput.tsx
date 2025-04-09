@@ -1,19 +1,12 @@
 import { KeyboardEvent } from "react";
-import {
-  ACTION,
-  CONTROL_KEY,
-  CURSOR_KEY,
-  FUNCTION_KEY,
-  KEYBOARD_KEY,
-  MAX_INPUT_LENGTH,
-} from "../lib/constants";
-import { isNumberValid } from "../lib/utils";
+import { ACTION, KEYBOARD_KEY } from "../lib/constants";
+import { logKeyCombination } from "../lib/utils";
 
 type DisplayProps = {
   value: string;
   onNumberChange: (value: string) => void;
   onActionSelect: (operation: string) => void;
-  maxLength: number;
+
   inputRef: React.RefObject<HTMLInputElement | null>;
 };
 
@@ -26,7 +19,6 @@ const CalculatorInput = ({
   value,
   onNumberChange: onNumberInput,
   onActionSelect: onActionSelect,
-  maxLength = MAX_INPUT_LENGTH,
   inputRef,
 }: DisplayProps) => {
   console.log("CalcInput Render:", value);
@@ -37,41 +29,16 @@ const CalculatorInput = ({
     console.log(`%conChange:${e.target.value}`, "background: #ddd;");
 
     // Display 0 when empty
-    const value = e.target.value || "0";
+    const newValue = e.target.value || "0";
 
-    onNumberInput(value);
+    console.log(`%c${newValue}`, "font-size:20px;color:red");
+    onNumberInput(newValue);
   };
 
-  // -------------------------------------------------------------------------------------------------
+  // -------------------------------------------------------------------------------------------------34
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    // console.log(`%conKeyDown:`, "background: #ddd;");
-    // logKeyCombination(e);
-
-    // Permit normal function/control/cursor key processing
-    if (
-      Object.keys(FUNCTION_KEY).includes(e.key) ||
-      Object.keys(CURSOR_KEY).includes(e.key) ||
-      (Object.keys(CONTROL_KEY).includes(e.key) && e.ctrlKey)
-    ) {
-      return;
-    }
-
-    // // Required before exponent check
-    // if (Object.keys(KEYBOARD_KEY).includes(e.key)) {
-    //   e.preventDefault();
-    //   if (e.key === KEYBOARD_KEY.Escape) onActionSelect(ACTION.ClearAll);
-    //   if (e.key === KEYBOARD_KEY.Enter) onActionSelect(ACTION.Equals);
-    //   if (e.key === KEYBOARD_KEY.Equals) onActionSelect(ACTION.Equals);
-    //   return;
-    // }
-
-    // // Prevent edit if display contains exponential notation
-    // if (value.includes("e")) {
-    //   e.preventDefault();
-    //   return;
-    // }
-
+    logKeyCombination(e);
     // Process calculator action keys
     if (Object.values(KEYBOARD_KEY).includes(e.key)) {
       e.preventDefault();
@@ -85,34 +52,14 @@ const CalculatorInput = ({
       return;
     }
 
-    // No calculations required for SHIFT and CTRL keys
-    if (e.shiftKey || e.ctrlKey) {
-      e.preventDefault();
-      return;
-    }
-
-    // Numbers only
-    if (!/^[0-9.]+$/.test(e.key)) {
-      e.preventDefault();
-      return;
-    }
-
-    // Validate number change
-    // Validation in onKeyDown avoids potential re-renders that reset the cursor position
-    const selStart = (e.target as HTMLInputElement).selectionStart || 0;
-    const selEnd = (e.target as HTMLInputElement).selectionEnd || 0;
-    const newValue = value.slice(0, selStart) + e.key + value.substring(selEnd);
-
-    console.log(
-      `Key[${e.key}] value[${value}] selStart[${selStart}] selEnd[${selEnd}]  newValue[${newValue}]`
-    );
-
-    if (!isNumberValid(newValue, maxLength)) {
+    const isNumeric = /^[0-9\.]/.test(e.key);
+    if (e.key !== "Backspace" && !isNumeric) {
+      // Prevent default behavior for all other keys
       e.preventDefault();
     }
   };
 
-  // -------------------------------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------------
 
   return (
     <input
@@ -121,6 +68,18 @@ const CalculatorInput = ({
       className="w-full  mb-4 h-16 rounded-md bg-gray-300 text-5xl px-4 text-right"
       onChange={handleChange}
       onKeyDown={handleKeyDown}
+      onFocus={(e) => {
+        setTimeout(() => {
+          const input = e.target as HTMLInputElement;
+          const length = input.value.length;
+          input.setSelectionRange(length, length);
+        }, 0);
+      }}
+      onMouseDown={(e) => {
+        e.preventDefault();
+        const input = e.target as HTMLInputElement;
+        input.focus();
+      }}
       value={value}
     />
   );

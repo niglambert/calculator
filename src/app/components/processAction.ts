@@ -54,7 +54,6 @@ export const processAction = ({
     }
 
     case ACTION.Equals: {
-      debugger;
       let result = parseFloat(display);
       const operationInProgress =
         previousKeyPressed === ACTION.Plus ||
@@ -79,13 +78,17 @@ export const processAction = ({
     }
 
     case ACTION.Backspace: {
-      const newValue = display.slice(0, -1);
+      let newValue = display.slice(0, -1);
 
       // After Equals, deleting a number starts a new calculation
       if (previousKeyPressed === "Equals") setRegister(null);
 
       // Enforce state to be entering a number
       setPreviousKeyPressed("Number");
+
+      // Reset to 0 is contains exponennt to prevent edit
+      const isNumeric = /^[0-9\.\-]*$/.test(newValue);
+      if (!isNumeric) newValue = "0";
 
       setDisplay(formatDisplay(newValue));
       break;

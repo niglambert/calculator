@@ -4,6 +4,8 @@ import { ClassValue, clsx } from "clsx";
 import { ACTION, MAX_DECIMAL_PLACES, MAX_INPUT_LENGTH } from "./constants";
 import { KeyboardEvent } from "react";
 
+// -------------------------------------------------------------------------------------------------
+
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
 };
@@ -139,6 +141,10 @@ export const formatDisplay = (value: number | string): string => {
 
 // -------------------------------------------------------------------------------------------------
 
+/**
+ *
+ * @param e
+ */
 export const logKeyCombination = (e: KeyboardEvent<HTMLInputElement>) => {
   console.log(
     `%cKey[${[

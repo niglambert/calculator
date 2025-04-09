@@ -3,8 +3,9 @@ import CalculatorInput from "./CalculatorInput";
 import CKey from "./CalculatorKey";
 import { ACTION, MAX_INPUT_LENGTH } from "../lib/constants";
 import { processAction } from "./processAction";
-import { processNumber } from "./processNumber";
+
 import { formatDisplay, isNumberValid } from "../lib/utils";
+import { processNumber } from "./processNumber";
 
 // -------------------------------------------------------------------------------------------------
 
@@ -17,14 +18,14 @@ const Calculator = () => {
 
   // -------------------------------------------------------------------------------------------------
 
-  const handleInputNumber = (combinedNumber: string) => {
+  const handleInputNumber = (value: string) => {
     console.log(
-      `%cCALCULATOR handleInputNumber Display[${display}] CombinedNumber[${combinedNumber}] Operation[${operation}] register[${register}] previousKeyPressed[${previousKeyPressed}] `,
+      `%cCALCULATOR handleInputNumber Display[${display}] Operation[${operation}] register[${register}] previousKeyPressed[${previousKeyPressed}] `,
       "color:blue;font-weight:700;"
     );
 
     // NEW OPERAND where previousKeyPressed was not a number
-    let numberEntered = combinedNumber;
+    let newValue = value;
     if (
       previousKeyPressed === ACTION.Plus ||
       previousKeyPressed === ACTION.Minus ||
@@ -32,18 +33,18 @@ const Calculator = () => {
       previousKeyPressed === ACTION.Divide ||
       previousKeyPressed === ACTION.Equals
     ) {
-      numberEntered = combinedNumber.slice(display.length);
-      console.log(`NEW OPERAND: [${numberEntered}]`);
+      newValue = newValue.slice(display.length);
     }
 
     processNumber({
-      numberEntered: numberEntered,
-      combinedNumber: combinedNumber,
+      newValue: newValue,
       previousKeyPressed,
       setDisplay,
       setRegister: setRegister,
       setPreviousKeyPressed,
     });
+
+    if (inputRef.current) inputRef.current.focus();
   };
 
   // -------------------------------------------------------------------------------------------------
@@ -88,13 +89,6 @@ const Calculator = () => {
         setPreviousKeyPressed,
       });
     } else {
-      //const combinedNumber = display + key;
-
-      // After Equals clear register for a new calculation
-      if (previousKeyPressed === ACTION.Equals) {
-        setRegister(null);
-      }
-
       let newValue = display + key;
       if (
         previousKeyPressed === ACTION.Plus ||
@@ -106,13 +100,15 @@ const Calculator = () => {
         newValue = key;
       }
 
-      if (!isNumberValid(newValue, MAX_INPUT_LENGTH)) return;
-
-      setPreviousKeyPressed("Number");
-      setDisplay(formatDisplay(newValue));
-
-      if (inputRef.current) inputRef.current.focus();
+      processNumber({
+        newValue: newValue,
+        previousKeyPressed,
+        setDisplay,
+        setRegister: setRegister,
+        setPreviousKeyPressed,
+      });
     }
+    if (inputRef.current) inputRef.current.focus();
   };
 
   // -------------------------------------------------------------------------------------------------
@@ -129,7 +125,6 @@ const Calculator = () => {
         value={display}
         onNumberChange={handleInputNumber}
         onActionSelect={handleInputAction}
-        maxLength={MAX_INPUT_LENGTH}
         inputRef={inputRef}
       />
 

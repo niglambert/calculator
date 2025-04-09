@@ -2,8 +2,8 @@ import { ACTION, MAX_INPUT_LENGTH } from "@/app/lib/constants";
 import { formatDisplay, isNumberValid } from "@/app/lib/utils";
 
 type ProcessNumberProps = {
-  numberEntered: string;
-  combinedNumber: string;
+  newValue: string;
+
   previousKeyPressed: string;
   setRegister: (v: number | null) => void;
   setPreviousKeyPressed: (v: string) => void;
@@ -16,31 +16,23 @@ type ProcessNumberProps = {
  * @returns
  */
 export const processNumber = ({
-  numberEntered: numberEntered,
-  combinedNumber,
+  newValue: newValue,
+
   previousKeyPressed,
   setRegister: setRegister,
   setPreviousKeyPressed,
   setDisplay,
 }: ProcessNumberProps) => {
-  //
   console.log(
-    `>>> processNumber numberPressed[${numberEntered}] combinedNumber[${combinedNumber}] previousKeyPressed[${previousKeyPressed}]`
+    `>>> processNumber numberPressed[${newValue}] previousKeyPressed[${previousKeyPressed}]`
   );
 
-  // A Number after Equals is a new calculation
+  // After Equals clear register for a new calculation
   if (previousKeyPressed === ACTION.Equals) setRegister(null);
 
-  // NEW OPERAND where previousKeyPressed was not a number
-  let numberToDisplay = combinedNumber;
-  if (previousKeyPressed !== "Number") {
-    console.log(`NEW OPERAND: [${numberToDisplay}]`);
-    numberToDisplay = numberEntered;
-  }
-
   // Resulting number validation
-  if (!isNumberValid(combinedNumber, MAX_INPUT_LENGTH)) return;
+  if (!isNumberValid(newValue, MAX_INPUT_LENGTH)) return;
 
   setPreviousKeyPressed("Number");
-  setDisplay(formatDisplay(numberToDisplay));
+  setDisplay(formatDisplay(newValue));
 };

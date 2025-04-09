@@ -26,13 +26,11 @@ beforeEach(() => {
 
 describe(">>> PROCESS NUMBER - CALCULATOR KEY CLICK", () => {
   it("01) should update the display the concatenated number when previous action was a Number key", () => {
-    const value = "4"; // Key pressed
-    const newValue = "1234"; // Combined number
+    const value = "1234"; // Key pressed
     previousKeyPressed = "Number";
 
     processNumber({
-      numberEntered: value,
-      combinedNumber: newValue,
+      newValue: value,
       previousKeyPressed,
       setRegister: setRegister,
       setPreviousKeyPressed,
@@ -40,19 +38,17 @@ describe(">>> PROCESS NUMBER - CALCULATOR KEY CLICK", () => {
     });
 
     expect(setPreviousKeyPressed).toHaveBeenCalledWith("Number");
-    expect(setDisplay).toHaveBeenCalledWith(newValue);
+    expect(setDisplay).toHaveBeenCalledWith(value);
   });
 
   // -------------------------------------------------------------------------------------------------
 
   it("02) should replace Display with the number pressed when the previous action was Equals", () => {
-    const value = "4"; // Key pressed
-    const newValue = "1234"; // Combined number
+    const value = "1234"; // Key pressed
     previousKeyPressed = "Equals";
 
     processNumber({
-      numberEntered: value,
-      combinedNumber: newValue,
+      newValue: value,
       previousKeyPressed,
       setRegister: setRegister,
       setPreviousKeyPressed,
@@ -67,13 +63,11 @@ describe(">>> PROCESS NUMBER - CALCULATOR KEY CLICK", () => {
   // -------------------------------------------------------------------------------------------------
 
   it("03) should replace Display with the number pressed when previous key was an Operation", () => {
-    const value = "4"; // Key pressed
-    const newValue = "1234"; // Combined number
+    const value = "1234"; // Key pressed
     previousKeyPressed = "Plus";
 
     processNumber({
-      numberEntered: value,
-      combinedNumber: newValue,
+      newValue: value,
       previousKeyPressed,
       setRegister: setRegister,
       setPreviousKeyPressed,
@@ -87,13 +81,11 @@ describe(">>> PROCESS NUMBER - CALCULATOR KEY CLICK", () => {
   // -------------------------------------------------------------------------------------------------
 
   it("04) should not update the Display if the number is invalid", () => {
-    const value = "4"; // Key pressed
-    const newValue = "12345678904"; // Combined number - invalid too long
+    const value = "12345678904"; // Invalid too long
     previousKeyPressed = "Plus";
 
     processNumber({
-      numberEntered: value,
-      combinedNumber: newValue,
+      newValue: value,
       previousKeyPressed,
       setRegister: setRegister,
       setPreviousKeyPressed,
