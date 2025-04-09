@@ -1,11 +1,9 @@
 import { useRef, useState } from "react";
 import CalculatorInput from "./CalculatorInput";
 import CKey from "./CalculatorKey";
-import { ACTION, MAX_INPUT_LENGTH } from "../lib/constants";
 import { processAction } from "./processAction";
-
-import { formatDisplay, isNumberValid } from "../lib/utils";
 import { processNumber } from "./processNumber";
+import { ACTION } from "../lib/constants";
 
 // -------------------------------------------------------------------------------------------------
 
@@ -115,12 +113,6 @@ const Calculator = () => {
 
   return (
     <div className="bg-gray-400 p-4 pt-6 rounded-xl shadow shadow-gray-500 select-none">
-      <div className="text-md mb-4 text-right">Display [{display}]</div>
-      <div className="text-md mb-4 text-right">Register [{register}]</div>
-      <div className="text-md mb-4 text-right">Operation [{operation}]</div>
-      <div className="text-md mb-4 text-right">
-        Last Key [{previousKeyPressed}]
-      </div>
       <CalculatorInput
         value={display}
         onNumberChange={handleInputNumber}
