@@ -14,27 +14,31 @@ export const ACTION = {
   //Number: "Number",
 };
 
-export const FUNCTION_KEY = {
-  F12: "F12",
-};
+export type ActionType = (typeof ACTION)[keyof typeof ACTION];
 
-export const CONTROL_KEY = {
-  a: "SelectAll",
-  c: "Copy",
-  x: "Cut",
-  v: "Paste",
-  z: "Undo",
-};
-
-export const CURSOR_KEY = {
+export const KEY = {
   Backspace: "Backspace",
-  Delete: "Delete",
-  ArrowLeft: "ArrowLeft",
-  ArrowRight: "ArrowRight",
-  Home: "Home",
-  End: "End",
-  Tab: "Tab",
+  ClearEntry: "ClearEntry",
+  ClearAll: "ClearAll",
+  Divide: "Divide",
+  Times: "Times",
+  Minus: "Minus",
+  Plus: "Plus",
+  Equals: "Equals",
+  Number: "Number",
 };
+
+export type KeyType = (typeof KEY)[keyof typeof KEY];
+
+export const OPERATION = {
+  Divide: "Divide",
+  Times: "Times",
+  Minus: "Minus",
+  Plus: "Plus",
+  Equals: "Equals",
+};
+
+export type oPERATIONType = (typeof OPERATION)[keyof typeof OPERATION];
 
 export const KEYBOARD_KEY = {
   Plus: "+",

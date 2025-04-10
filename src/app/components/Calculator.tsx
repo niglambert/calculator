@@ -119,7 +119,7 @@ const Calculator = () => {
 
       <div className="grid grid-cols-4 gap-3 mb-2 ">
         <CKey
-          onKeyClick={() => handleKeyAction("Backspace")}
+          onKeyClick={() => handleKeyAction(ACTION.Backspace)}
           className="text-3xl"
         >
           <svg
@@ -139,33 +139,35 @@ const Calculator = () => {
           </svg>
         </CKey>
         <CKey
-          onKeyClick={() => handleKeyAction("ClearAll")}
+          onKeyClick={() => handleKeyAction(ACTION.ClearAll)}
           className="text-3xl"
         >
           C
         </CKey>
         <CKey
-          onKeyClick={() => handleKeyAction("ClearEntry")}
+          onKeyClick={() => handleKeyAction(ACTION.ClearEntry)}
           className="text-3xl"
         >
           CE
         </CKey>
         <CKey
-          onKeyClick={() => handleKeyAction("Divide")}
-          className={operation === "Divide" ? "bg-amber-400" : "bg-amber-300"}
+          onKeyClick={() => handleKeyAction(ACTION.Divide)}
+          className={
+            operation === ACTION.Divide ? "bg-amber-400" : "bg-amber-300"
+          }
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
             className="size-10"
           >
             <path
               className="stroke-2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M4.499 11.998h15m-7.5-6.75h.008v.008h-.008v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM12 18.751h.007v.007H12v-.007Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
             />
           </svg>
@@ -175,21 +177,23 @@ const Calculator = () => {
         <CKey onKeyClick={() => handleKeyNumber("8")}>8</CKey>
         <CKey onKeyClick={() => handleKeyNumber("9")}>9</CKey>
         <CKey
-          onKeyClick={() => handleKeyAction("Times")}
-          className={operation === "Times" ? "bg-amber-400" : "bg-amber-300"}
+          onKeyClick={() => handleKeyAction(ACTION.Times)}
+          className={
+            operation === ACTION.Times ? "bg-amber-400" : "bg-amber-300"
+          }
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
             className="size-10 transform rotate-45"
           >
             <path
               className="stroke-2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M12 4.5v15m7.5-7.5h-15"
             />
           </svg>
@@ -199,21 +203,23 @@ const Calculator = () => {
         <CKey onKeyClick={() => handleKeyNumber("5")}>5</CKey>
         <CKey onKeyClick={() => handleKeyNumber("6")}>6</CKey>
         <CKey
-          onKeyClick={() => handleKeyAction("Minus")}
-          className={operation === "Minus" ? "bg-amber-400" : "bg-amber-300"}
+          onKeyClick={() => handleKeyAction(ACTION.Minus)}
+          className={
+            operation === ACTION.Minus ? "bg-amber-400" : "bg-amber-300"
+          }
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
             className="size-10"
           >
             <path
               className="stroke-2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M5 12h14"
             />
           </svg>
@@ -223,21 +229,23 @@ const Calculator = () => {
         <CKey onKeyClick={() => handleKeyNumber("2")}>2</CKey>
         <CKey onKeyClick={() => handleKeyNumber("3")}>3</CKey>
         <CKey
-          onKeyClick={() => handleKeyAction("Plus")}
-          className={operation === "Plus" ? "bg-amber-400" : "bg-amber-300"}
+          onKeyClick={() => handleKeyAction(ACTION.Plus)}
+          className={
+            operation === ACTION.Plus ? "bg-amber-400" : "bg-amber-300"
+          }
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
             className="size-10"
           >
             <path
               className="stroke-2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M12 4.5v15m7.5-7.5h-15"
             />
           </svg>
@@ -247,22 +255,19 @@ const Calculator = () => {
           0
         </CKey>
         <CKey onKeyClick={() => handleKeyNumber(".")}>.</CKey>
-        <CKey
-          onKeyClick={() => handleKeyAction("Equals")}
-          className={operation === "Equals" ? "bg-amber-400" : "bg-amber-300"}
-        >
+        <CKey onKeyClick={() => handleKeyAction("Equals")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
-            className="size-10"
+            className="size-6"
           >
             <path
               className="stroke-2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M4.499 8.248h15m-15 7.501h15"
             />
           </svg>

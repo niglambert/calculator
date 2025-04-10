@@ -1,8 +1,8 @@
 import { formatDisplay, performCalculation } from "../lib/utils";
-import { ACTION } from "../lib/constants";
+import { ACTION, ActionType } from "../lib/constants";
 
 type ProcessActionProps = {
-  action: string;
+  action: ActionType;
   display: string;
   operation: string | null;
   register: number | null;
@@ -33,19 +33,26 @@ export const processAction = ({
     case ACTION.Times:
     case ACTION.Minus:
     case ACTION.Plus: {
+      // Calculation starts with an operation so default first operand to 0
       if (register === null && previousKeyPressed !== "Number") {
         setRegister(0);
       }
 
       if (previousKeyPressed === "Number") {
+        const previouslySelectedOperation = operation;
+        const nextOperation = action;
         let result = parseFloat(display);
         if (register !== null) {
-          action = operation !== null ? operation : action;
-          result = performCalculation({ display, register: register, action });
+          result = performCalculation({
+            display,
+            register: register,
+            action: previouslySelectedOperation,
+          });
         }
         const formattedResult = formatDisplay(result);
         setDisplay(formattedResult);
         setRegister(result);
+        setOperation(nextOperation);
       }
 
       setPreviousKeyPressed(action);
