@@ -3,15 +3,15 @@ import CalculatorInput from "./CalculatorInput";
 import CKey from "./CalculatorKey";
 import { processAction } from "./processAction";
 import { processNumber } from "./processNumber";
-import { ACTION } from "../lib/constants";
+import { ACTION, ActionType, OperationType } from "../lib/constants";
 import { log } from "../lib/utils";
 // -------------------------------------------------------------------------------------------------
 
 const Calculator = () => {
   const [display, setDisplay] = useState("0");
-  const [operation, setOperation] = useState<string | null>(null);
-  const [previousKeyPressed, setPreviousKeyPressed] = useState<string>("");
-  const [register, setRegister] = useState<number | null>(null);
+  const [operation, setOperation] = useState<OperationType | null>(null);
+  const [previousAction, setPreviousAction] = useState<ActionType | null>(null);
+  const [accumulator, setAccumulator] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   // -------------------------------------------------------------------------------------------------
@@ -19,24 +19,24 @@ const Calculator = () => {
   const handleInputNumber = (value: string) => {
     log(`%cCALCULATOR handleKeyAction Key[${value}]`);
 
-    // NEW OPERAND where previousKeyPressed was not a number
+    // NEW OPERAND where previousAction was not a number
     let newValue = value;
     if (
-      previousKeyPressed === ACTION.Plus ||
-      previousKeyPressed === ACTION.Minus ||
-      previousKeyPressed === ACTION.Times ||
-      previousKeyPressed === ACTION.Divide ||
-      previousKeyPressed === ACTION.Equals
+      previousAction === ACTION.Plus ||
+      previousAction === ACTION.Minus ||
+      previousAction === ACTION.Times ||
+      previousAction === ACTION.Divide ||
+      previousAction === ACTION.Equals
     ) {
       newValue = newValue.slice(display.length);
     }
 
     processNumber({
       newValue,
-      previousKeyPressed,
+      previousAction,
       setDisplay,
-      setRegister,
-      setPreviousKeyPressed,
+      setAccumulator,
+      setPreviousAction,
     });
 
     if (inputRef.current) inputRef.current.focus();
@@ -44,18 +44,18 @@ const Calculator = () => {
 
   // -------------------------------------------------------------------------------------------------
 
-  const handleInputAction = (action: string) => {
+  const handleInputAction = (action: ActionType) => {
     log(`%cCALCULATOR handleKeyAction Key[${action}]`);
     processAction({
       action,
       display,
       operation,
-      register,
-      previousKeyPressed,
+      accumulator,
+      previousAction,
       setDisplay,
-      setRegister,
+      setAccumulator,
       setOperation,
-      setPreviousKeyPressed,
+      setPreviousAction,
     });
   };
 
@@ -66,44 +66,46 @@ const Calculator = () => {
 
     let newValue = display + value;
     if (
-      previousKeyPressed === ACTION.Plus ||
-      previousKeyPressed === ACTION.Minus ||
-      previousKeyPressed === ACTION.Times ||
-      previousKeyPressed === ACTION.Divide ||
-      previousKeyPressed === ACTION.Equals
+      previousAction === ACTION.Plus ||
+      previousAction === ACTION.Minus ||
+      previousAction === ACTION.Times ||
+      previousAction === ACTION.Divide ||
+      previousAction === ACTION.Equals
     ) {
       newValue = value;
     }
 
     processNumber({
       newValue,
-      previousKeyPressed,
+      previousAction,
       setDisplay,
-      setRegister,
-      setPreviousKeyPressed,
+      setAccumulator,
+      setPreviousAction,
     });
 
-    //if (inputRef.current) inputRef.current.focus();
+    const isTabletOrMobile = screen.width <= 1024;
+    if (!isTabletOrMobile) if (inputRef.current) inputRef.current.focus();
   };
 
   // -------------------------------------------------------------------------------------------------
 
-  const handleKeyAction = (action: string) => {
+  const handleKeyAction = (action: ActionType) => {
     log(`%cCALCULATOR handleKeyAction Key[${action}]`);
 
     processAction({
       action,
       display,
       operation,
-      register,
-      previousKeyPressed,
+      accumulator,
+      previousAction,
       setDisplay,
-      setRegister,
+      setAccumulator,
       setOperation,
-      setPreviousKeyPressed,
+      setPreviousAction,
     });
 
-    //if (inputRef.current) inputRef.current.focus();
+    const isTabletOrMobile = screen.width <= 1024;
+    if (!isTabletOrMobile) if (inputRef.current) inputRef.current.focus();
   };
 
   // -------------------------------------------------------------------------------------------------
@@ -255,7 +257,10 @@ const Calculator = () => {
           0
         </CKey>
         <CKey onKeyClick={() => handleKeyNumber(".")}>.</CKey>
-        <CKey onKeyClick={() => handleKeyAction("Equals")}>
+        <CKey
+          onKeyClick={() => handleKeyAction("Equals")}
+          className={"bg-amber-300"}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

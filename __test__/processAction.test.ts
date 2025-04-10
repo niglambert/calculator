@@ -9,23 +9,23 @@ describe(">>> PROCESS NUMBER - CALCULATOR KEY CLICK", () => {
     const setDisplay = vi.fn();
     const setRegister = vi.fn();
     const setOperation = vi.fn();
-    const setPreviousKeyPressed = vi.fn();
+    const setPreviousAction = vi.fn();
 
     processAction({
       action: ACTION.Equals,
       display: "3",
       operation: ACTION.Plus,
-      register: 2,
-      previousKeyPressed: "Number",
+      accumulator: 2,
+      previousAction: ACTION.Number,
       setDisplay,
-      setRegister: setRegister,
+      setAccumulator: setRegister,
       setOperation,
-      setPreviousKeyPressed,
+      setPreviousAction,
     });
 
     expect(setDisplay).toHaveBeenCalledWith("5");
     expect(setRegister).toHaveBeenCalledWith(5);
     expect(setOperation).toHaveBeenCalledWith(null);
-    expect(setPreviousKeyPressed).toHaveBeenCalledWith("Equals");
+    expect(setPreviousAction).toHaveBeenCalledWith("Equals");
   });
 });

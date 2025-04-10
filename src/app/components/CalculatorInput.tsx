@@ -1,11 +1,16 @@
 import { KeyboardEvent } from "react";
-import { ACTION, KEYBOARD_KEY } from "../lib/constants";
+import {
+  ACTION,
+  ActionType,
+  KEYBOARD_KEY,
+  KeyboardKeyType,
+} from "../lib/constants";
 import { logKeyCombination } from "../lib/utils";
 
 type DisplayProps = {
   value: string;
   onNumberChange: (value: string) => void;
-  onActionSelect: (operation: string) => void;
+  onActionSelect: (operation: ActionType) => void;
 
   inputRef: React.RefObject<HTMLInputElement | null>;
 };
@@ -35,12 +40,12 @@ const CalculatorInput = ({
     onNumberInput(newValue);
   };
 
-  // -------------------------------------------------------------------------------------------------34
+  // -------------------------------------------------------------------------------------------------
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     logKeyCombination(e);
     // Process calculator action keys
-    if (Object.values(KEYBOARD_KEY).includes(e.key)) {
+    if (Object.values(KEYBOARD_KEY).includes(e.key as KeyboardKeyType)) {
       e.preventDefault();
       if (e.key === KEYBOARD_KEY.Plus) onActionSelect(ACTION.Plus);
       if (e.key === KEYBOARD_KEY.Minus) onActionSelect(ACTION.Minus);
@@ -66,6 +71,7 @@ const CalculatorInput = ({
       ref={inputRef}
       type="text"
       className="w-full  mb-4 h-16 rounded-md bg-gray-300 text-5xl px-4 text-right"
+      style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
       onFocus={(e) => {

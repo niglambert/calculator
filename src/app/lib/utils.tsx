@@ -6,6 +6,12 @@ import { KeyboardEvent } from "react";
 
 // -------------------------------------------------------------------------------------------------
 
+/**
+ * Merges Tailwind CSS class names & conditional class names
+ *
+ * @param inputs
+ * @returns
+ */
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
 };
@@ -50,18 +56,6 @@ export const isNumberValid = (value: string, maxLength: number): boolean => {
     console.warn(func, "Too many characters");
     return false;
   }
-
-  // // Prevent multiple leading zeros
-  // if (value.startsWith("00")) {
-  //   console.warn(func, "Removed multiple leading zeros");
-  //   return false;
-  // }
-
-  // // Prevent empty string
-  // if (value.length === 0) {
-  //   console.warn(func, "Empty string not allowed");
-  //   return false;
-  // }
 
   return true;
 };
@@ -122,7 +116,7 @@ export const formatDisplay = (value: number | string): string => {
   newValue = newValue
     .replace(/^0*/, "")
     .replace(/^\./, "0.")
-    .replace(/^$/, "0") ///xxxxxxxxxxxxxxxxx
+    .replace(/^$/, "0")
     .replace(/^-0$/, "0");
 
   // Negative symbol not included in max length

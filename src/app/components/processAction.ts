@@ -1,32 +1,32 @@
 import { formatDisplay, performCalculation } from "../lib/utils";
-import { ACTION, ActionType } from "../lib/constants";
+import { ACTION, ActionType, OperationType } from "../lib/constants";
 
 type ProcessActionProps = {
   action: ActionType;
   display: string;
-  operation: string | null;
-  register: number | null;
-  previousKeyPressed: string;
+  operation: OperationType | null;
+  accumulator: number | null;
+  previousAction: ActionType | null;
   setDisplay: (v: string) => void;
-  setRegister: (v: number | null) => void;
-  setOperation: (v: string | null) => void;
-  setPreviousKeyPressed: (v: string) => void;
+  setAccumulator: (v: number | null) => void;
+  setOperation: (v: OperationType | null) => void;
+  setPreviousAction: (v: ActionType | null) => void;
 };
 
 export const processAction = ({
   action,
   display,
   operation,
-  register: register,
-  previousKeyPressed,
+  accumulator,
+  previousAction,
   setDisplay,
-  setRegister: setRegister,
+  setAccumulator,
   setOperation,
-  setPreviousKeyPressed,
+  setPreviousAction,
 }: ProcessActionProps) => {
   //
   console.log(
-    `>>> processAction action[${action}] display[${display}] operation[${operation}] register[${register}] previousKeyPressed[${previousKeyPressed}]`
+    `>>> processAction action[${action}] display[${display}] operation[${operation}] register[${accumulator}] previousAction[${previousAction}]`
   );
   switch (action) {
     case ACTION.Divide:
@@ -34,53 +34,53 @@ export const processAction = ({
     case ACTION.Minus:
     case ACTION.Plus: {
       // Calculation starts with an operation so default first operand to 0
-      if (register === null && previousKeyPressed !== "Number") {
-        setRegister(0);
+      if (accumulator === null && previousAction !== ACTION.Number) {
+        setAccumulator(0);
       }
 
-      if (previousKeyPressed === "Number") {
-        const previouslySelectedOperation = operation;
-        const nextOperation = action;
+      const previouslySelectedOperation = operation;
+      const nextOperation = action;
+
+      if (previousAction === ACTION.Number) {
         let result = parseFloat(display);
-        if (register !== null) {
+        if (accumulator !== null) {
           result = performCalculation({
             display,
-            register: register,
+            register: accumulator,
             action: previouslySelectedOperation,
           });
         }
         const formattedResult = formatDisplay(result);
         setDisplay(formattedResult);
-        setRegister(result);
-        setOperation(nextOperation);
+        setAccumulator(result);
       }
 
-      setPreviousKeyPressed(action);
-      setOperation(action);
+      setPreviousAction(action);
+      setOperation(nextOperation);
       break;
     }
 
     case ACTION.Equals: {
       let result = parseFloat(display);
       const operationInProgress =
-        previousKeyPressed === ACTION.Plus ||
-        previousKeyPressed === ACTION.Minus ||
-        previousKeyPressed === ACTION.Times ||
-        previousKeyPressed === ACTION.Divide;
+        previousAction === ACTION.Plus ||
+        previousAction === ACTION.Minus ||
+        previousAction === ACTION.Times ||
+        previousAction === ACTION.Divide;
 
       // No calculation necessary if second operand not entered
-      if (register !== null && !operationInProgress) {
+      if (accumulator !== null && !operationInProgress) {
         result = performCalculation({
           display,
-          register: register,
+          register: accumulator,
           action: operation,
         });
       }
       const formattedResult = formatDisplay(result);
       setDisplay(formattedResult);
-      setRegister(result);
+      setAccumulator(result);
       setOperation(null);
-      setPreviousKeyPressed("Equals");
+      setPreviousAction(ACTION.Equals);
       break;
     }
 
@@ -88,10 +88,10 @@ export const processAction = ({
       let newValue = display.slice(0, -1);
 
       // After Equals, deleting a number starts a new calculation
-      if (previousKeyPressed === "Equals") setRegister(null);
+      if (previousAction === ACTION.Equals) setAccumulator(null);
 
       // Enforce state to be entering a number
-      setPreviousKeyPressed("Number");
+      setPreviousAction(ACTION.Number);
 
       // Reset to 0 is contains exponennt to prevent edit
       const isNumeric = /^[0-9\.\-]*$/.test(newValue);
@@ -103,14 +103,14 @@ export const processAction = ({
 
     case ACTION.ClearEntry: {
       setDisplay("0");
-      if (previousKeyPressed === "Equals") setRegister(null);
+      if (previousAction === ACTION.Equals) setAccumulator(null);
       break;
     }
 
     case ACTION.ClearAll: {
       setDisplay("0");
-      setRegister(null);
-      setPreviousKeyPressed("");
+      setAccumulator(null);
+      setPreviousAction(null);
       setOperation(null);
       break;
     }

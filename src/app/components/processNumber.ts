@@ -1,12 +1,11 @@
-import { ACTION, MAX_INPUT_LENGTH } from "@/app/lib/constants";
+import { ACTION, ActionType, MAX_INPUT_LENGTH } from "@/app/lib/constants";
 import { formatDisplay, isNumberValid } from "@/app/lib/utils";
 
 type ProcessNumberProps = {
   newValue: string;
-
-  previousKeyPressed: string;
-  setRegister: (v: number | null) => void;
-  setPreviousKeyPressed: (v: string) => void;
+  previousAction: ActionType | null;
+  setAccumulator: (v: number | null) => void;
+  setPreviousAction: (v: ActionType | null) => void;
   setDisplay: (v: string) => void;
 };
 /**
@@ -16,23 +15,22 @@ type ProcessNumberProps = {
  * @returns
  */
 export const processNumber = ({
-  newValue: newValue,
-
-  previousKeyPressed,
-  setRegister: setRegister,
-  setPreviousKeyPressed,
+  newValue,
+  previousAction,
+  setAccumulator,
+  setPreviousAction,
   setDisplay,
 }: ProcessNumberProps) => {
   console.log(
-    `>>> processNumber numberPressed[${newValue}] previousKeyPressed[${previousKeyPressed}]`
+    `>>> processNumber numberPressed[${newValue}] previousAction[${previousAction}]`
   );
 
   // After Equals clear register for a new calculation
-  if (previousKeyPressed === ACTION.Equals) setRegister(null);
+  if (previousAction === ACTION.Equals) setAccumulator(null);
 
   // Resulting number validation
   if (!isNumberValid(newValue, MAX_INPUT_LENGTH)) return;
 
-  setPreviousKeyPressed("Number");
+  setPreviousAction(ACTION.Number);
   setDisplay(formatDisplay(newValue));
 };
