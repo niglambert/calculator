@@ -25,9 +25,6 @@ export const processAction = ({
   setPreviousAction,
 }: ProcessActionProps) => {
   //
-  console.log(
-    `>>> processAction action[${action}] display[${display}] operation[${operation}] register[${accumulator}] previousAction[${previousAction}]`
-  );
   switch (action) {
     case ACTION.Divide:
     case ACTION.Times:

@@ -4,7 +4,6 @@ import CKey from "./CalculatorKey";
 import { processAction } from "./processAction";
 import { processNumber } from "./processNumber";
 import { ACTION, ActionType, OperationType } from "../lib/constants";
-import { log } from "../lib/utils";
 // -------------------------------------------------------------------------------------------------
 
 const Calculator = () => {
@@ -17,8 +16,6 @@ const Calculator = () => {
   // -------------------------------------------------------------------------------------------------
 
   const handleInputNumber = (value: string) => {
-    log(`%cCALCULATOR handleKeyAction Key[${value}]`);
-
     // NEW OPERAND where previousAction was not a number
     let newValue = value;
     if (
@@ -45,7 +42,6 @@ const Calculator = () => {
   // -------------------------------------------------------------------------------------------------
 
   const handleInputAction = (action: ActionType) => {
-    log(`%cCALCULATOR handleKeyAction Key[${action}]`);
     processAction({
       action,
       display,
@@ -62,8 +58,6 @@ const Calculator = () => {
   // -------------------------------------------------------------------------------------------------
 
   const handleKeyNumber = (value: string) => {
-    log(`%cCALCULATOR handleKeyAction Key[${value}]`);
-
     let newValue = display + value;
     if (
       previousAction === ACTION.Plus ||
@@ -90,8 +84,6 @@ const Calculator = () => {
   // -------------------------------------------------------------------------------------------------
 
   const handleKeyAction = (action: ActionType) => {
-    log(`%cCALCULATOR handleKeyAction Key[${action}]`);
-
     processAction({
       action,
       display,
@@ -128,12 +120,11 @@ const Calculator = () => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth={1.5}
+            strokeWidth="2"
             stroke="currentColor"
             className="size-10"
           >
             <path
-              className="stroke-2"
               strokeLinecap="round"
               strokeLinejoin="round"
               d="M12 9.75 14.25 12m0 0 2.25 2.25M14.25 12l2.25-2.25M14.25 12 12 14.25m-2.58 4.92-6.374-6.375a1.125 1.125 0 0 1 0-1.59L9.42 4.83c.21-.211.497-.33.795-.33H19.5a2.25 2.25 0 0 1 2.25 2.25v10.5a2.25 2.25 0 0 1-2.25 2.25h-9.284c-.298 0-.585-.119-.795-.33Z"
@@ -162,12 +153,11 @@ const Calculator = () => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth="1.5"
+            strokeWidth="2"
             stroke="currentColor"
             className="size-10"
           >
             <path
-              className="stroke-2"
               strokeLinecap="round"
               strokeLinejoin="round"
               d="M4.499 11.998h15m-7.5-6.75h.008v.008h-.008v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM12 18.751h.007v.007H12v-.007Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
@@ -188,12 +178,11 @@ const Calculator = () => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth="1.5"
+            strokeWidth="2"
             stroke="currentColor"
             className="size-10 transform rotate-45"
           >
             <path
-              className="stroke-2"
               strokeLinecap="round"
               strokeLinejoin="round"
               d="M12 4.5v15m7.5-7.5h-15"
@@ -214,16 +203,11 @@ const Calculator = () => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth="1.5"
+            strokeWidth="2"
             stroke="currentColor"
             className="size-10"
           >
-            <path
-              className="stroke-2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M5 12h14"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
           </svg>
         </CKey>
 
@@ -240,12 +224,11 @@ const Calculator = () => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth="1.5"
+            strokeWidth="2"
             stroke="currentColor"
             className="size-10"
           >
             <path
-              className="stroke-2"
               strokeLinecap="round"
               strokeLinejoin="round"
               d="M12 4.5v15m7.5-7.5h-15"
@@ -265,12 +248,11 @@ const Calculator = () => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth="1.5"
+            strokeWidth="2"
             stroke="currentColor"
-            className="size-6"
+            className="size-10"
           >
             <path
-              className="stroke-2"
               strokeLinecap="round"
               strokeLinejoin="round"
               d="M4.499 8.248h15m-15 7.501h15"

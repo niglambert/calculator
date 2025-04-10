@@ -21,10 +21,6 @@ export const processNumber = ({
   setPreviousAction,
   setDisplay,
 }: ProcessNumberProps) => {
-  console.log(
-    `>>> processNumber numberPressed[${newValue}] previousAction[${previousAction}]`
-  );
-
   // After Equals clear register for a new calculation
   if (previousAction === ACTION.Equals) setAccumulator(null);
 

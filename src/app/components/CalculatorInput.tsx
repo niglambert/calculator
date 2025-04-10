@@ -26,17 +26,11 @@ const CalculatorInput = ({
   onActionSelect: onActionSelect,
   inputRef,
 }: DisplayProps) => {
-  console.log("CalcInput Render:", value);
-
   // -------------------------------------------------------------------------------------------------
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(`%conChange:${e.target.value}`, "background: #ddd;");
-
     // Display 0 when empty
     const newValue = e.target.value || "0";
-
-    console.log(`%c${newValue}`, "font-size:20px;color:red");
     onNumberInput(newValue);
   };
 

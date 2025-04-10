@@ -30,7 +30,6 @@ export const cn = (...inputs: ClassValue[]) => {
  */
 export const isNumberValid = (value: string, maxLength: number): boolean => {
   const func = "isNumberValid";
-  console.log(func, `Value [${value}]`);
 
   // Prevent double decimal separator
   const decimalSeparator = (0.1).toLocaleString().slice(1, 2);
