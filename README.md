@@ -96,9 +96,15 @@ Update scripts
     ...
 ```
 
-# End-to-End Tests
+## Icons
 
-## Button Tests
+```bash
+https://heroicons.com/solid
+```
+
+## End-to-End Tests
+
+### Button Tests
 
 If the first operand is an operator, default the first operand to 0
 Tests: -2=[-2], /9=[0]
@@ -133,7 +139,7 @@ Tests: 123456789[12345678]
 Exponent used if result too large
 Tests: 99999999x10[1.00e+9]
 
-## Input Field Tests
+### Input Field Tests
 
 Empty field displays 0
 Tests: 0Backspace[0]
